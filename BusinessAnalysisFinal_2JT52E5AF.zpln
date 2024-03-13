@@ -1,0 +1,1349 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%pyspark\n#Identify the most common merchants in the United States (Top 20).\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import count, col\nhc = HiveContext(sc)\ndf = hc.table('business')\n\nresult = df.groupBy('name')\\\n    .agg(count('name').alias('cnt'))\\\n    .orderBy(col('cnt').desc())\\\n    .limit(20)\n\nz.show(result)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:24:54+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "name": "string",
+                      "cnt": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "stacked": false
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "name",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "cnt",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "name\tcnt\nStarbucks\t724\nMcDonald's\t703\nDunkin'\t510\nSubway\t459\nTaco Bell\t365\nCVS Pharmacy\t345\nWalgreens\t341\nBurger King\t338\nWendy's\t331\nWawa\t307\nDomino's Pizza\t295\nThe UPS Store\t281\nPizza Hut\t272\nEnterprise Rent-A-Car\t232\nPapa John's Pizza\t196\nGreat Clips\t185\nJimmy John's\t175\nUS Post Office\t174\nKFC\t171\nChick-fil-A\t162\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666703_1566559349",
+      "id": "paragraph_1710061593217_1425576149",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:18280"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import HiveContext\nfrom pyspark.sql.functions import count, col, split, explode\nhc = HiveContext(sc)\ndf = hc.table('business')\n\nresult = df.select(explode(split('categories', ', ')).alias('category'))\\\n    .groupBy('category')\\\n    .agg(count('category').alias('cnt'))\\\n    .orderBy(col('cnt').desc())\\\n    .limit(10)\n\nz.show(result)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:25:03+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "category": "string",
+                      "cnt": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "category",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "cnt",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "category": "string",
+                      "cnt": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "category\tcnt\nRestaurants\t52268\nFood\t27781\nShopping\t24395\nHome Services\t14356\nBeauty & Spas\t14292\nNightlife\t12281\nHealth & Medical\t11890\nLocal Services\t11198\nBars\t11065\nAutomotive\t10773\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666716_514211917",
+      "id": "paragraph_1710061795769_1272636985",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18281"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import HiveContext\nfrom pyspark.sql.functions import count, col\nsc = spark.sparkContext\nhc = HiveContext(sc)\ndf = hc.table('business')\n\n# Perform aggregation by city\nresult = df.groupBy('city') \\\n            .agg(count('name').alias('merchant_count')) \\\n            .orderBy(col('merchant_count').desc()) \\\n            .limit(10)\n\nz.show(result)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:25:08+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "city": "string",
+                      "merchant_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "city",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "merchant_count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "city\tmerchant_count\nPhiladelphia\t14569\nTucson\t9250\nTampa\t9050\nIndianapolis\t7540\nNashville\t6971\nNew Orleans\t6209\nReno\t5935\nEdmonton\t5054\nSaint Louis\t4827\nSanta Barbara\t3829\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_1658772651",
+      "id": "paragraph_1710062065030_1567100084",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18282"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import count, col, avg\nsc = spark.sparkContext\nhc = HiveContext(sc)\ndf = hc.table('business')\nresult = df.groupBy('name') \\\n                      .agg(count('name').alias('merchant_count'), avg('stars').alias('avg_rating')) \\\n                      .orderBy(col('merchant_count').desc()) \\\n                      .limit(20)\n\nz.show(result)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:25:13+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "name": "string",
+                      "merchant_count": "string",
+                      "avg_rating": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "name",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "merchant_count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "name\tmerchant_count\tavg_rating\nStarbucks\t724\t3.126381215469613\nMcDonald's\t703\t1.8634423897581793\nDunkin'\t510\t2.302941176470588\nSubway\t459\t2.5860566448801743\nTaco Bell\t365\t2.154794520547945\nCVS Pharmacy\t345\t2.4565217391304346\nWalgreens\t341\t2.624633431085044\nBurger King\t338\t2.0281065088757395\nWendy's\t331\t2.015105740181269\nWawa\t307\t3.3192182410423454\nDomino's Pizza\t295\t2.2813559322033896\nThe UPS Store\t281\t3.215302491103203\nPizza Hut\t272\t2.0330882352941178\nEnterprise Rent-A-Car\t232\t3.2780172413793105\nPapa John's Pizza\t196\t2.4081632653061225\nGreat Clips\t185\t2.9\nJimmy John's\t175\t2.8685714285714288\nUS Post Office\t174\t2.4195402298850577\nKFC\t171\t1.8596491228070176\nChick-fil-A\t162\t3.3858024691358026\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_158537250",
+      "id": "paragraph_1710062209817_2005236957",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18283"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import count, col\nsc = spark.sparkContext\nhc = HiveContext(sc)\ndf = hc.table('business')\n# Perform aggregation by state\nresult = df.groupBy('state') \\\n                      .agg(count('name').alias('merchant_count')) \\\n                      .orderBy(col('merchant_count').desc()) \\\n                      .limit(5)\n\nz.show(result)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:25:28+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {
+                    "columns": [
+                      {
+                        "name": "state0",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "merchant_count1",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      }
+                    ],
+                    "scrollFocus": {},
+                    "selection": [],
+                    "grouping": {
+                      "grouping": [],
+                      "aggregations": [],
+                      "rowExpandedStates": {}
+                    },
+                    "treeView": {},
+                    "pagination": {
+                      "paginationCurrentPage": 1,
+                      "paginationPageSize": 250
+                    }
+                  },
+                  "tableColumnTypeState": {
+                    "names": {
+                      "state": "string",
+                      "merchant_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": true,
+                    "showPagination": true,
+                    "showAggregationFooter": true
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "pieChart": {},
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "state",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "merchant_count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "state\tmerchant_count\nPA\t34039\nFL\t26330\nTN\t12056\nIN\t11247\nMO\t10913\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_1896311001",
+      "id": "paragraph_1710062263285_1532965474",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18284"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import explode, split, count, col\nsc = spark.sparkContext\nhc = HiveContext(sc)\ndf = hc.table('business')\n\nresult = df.select(explode(split('categories', ', ')).alias('category')) \\\n           .groupBy('category') \\\n           .agg(count('*').alias('cnt')) \\\n           .orderBy(col('cnt').desc()) \\\n           .limit(10)\n\nz.show(result)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:43:11+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "category": "string",
+                      "cnt": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "category",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "cnt",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "category\tcnt\nRestaurants\t52268\nFood\t27781\nShopping\t24395\nHome Services\t14356\nBeauty & Spas\t14292\nNightlife\t12281\nHealth & Medical\t11890\nLocal Services\t11198\nBars\t11065\nAutomotive\t10773\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_681678267",
+      "id": "paragraph_1710062410769_1148627754",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18285"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import sum\nsc = spark.sparkContext\nhc = HiveContext(sc)\ndf = hc.table('business')\n\n\n# Filter businesses with five-star reviews\nfive_star_businesses = df.filter(df.stars == 5)\n\nresult = five_star_businesses.groupBy('name') \\\n                              .agg(sum('review_count').alias('five_star_reviews')) \\\n                              .orderBy(col('five_star_reviews').desc()) \\\n                              .limit(20)\n\nz.show(result)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:33:19+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "name": "string",
+                      "five_star_reviews": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "name",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "five_star_reviews",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "name\tfive_star_reviews\nBlues City Deli\t991\nFree Tours By Foot\t953\nCarlillos Cocina\t799\nTumerico\t705\nYats\t623\nNelson's Green Brier Distillery\t545\nSmiling With Hope Pizza\t526\nBarracuda Deli Cafe St. Pete Beach\t521\nSUGARED + BRONZED\t513\nCafe Soleil\t473\nKaffe Crepe\t454\nBuena Onda\t414\nJB Plumbing and Heating\t398\nBig Al's Deli\t390\nAJ's Press\t376\nThe Escape Game Nashville\t360\nSustainable Wine Tours\t358\nBarista Del Barrio\t357\nTwo Chicks Walking Tours\t342\nSulphur Springs  Sandwiches Shop\t336\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_1670455680",
+      "id": "paragraph_1710062450916_79210410",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18286"
+    },
+    {
+      "text": "%pyspark\n#Identify the top 10 cities with the highest average review counts per merchant in the United States\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import count, col\nhc = HiveContext(sc)\ndf = hc.table('business')\nresult = df.filter(df['is_open'] == 1)\\\n    .groupBy('city')\\\n    .agg((count('review_count') / count('name')).alias('avg_review_count_per_merchant'))\\\n    .orderBy(col('avg_review_count_per_merchant').desc())\\\n    .limit(30)\n\nz.show(result)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:24:26+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "city": "string",
+                      "avg_review_count_per_merchant": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "city",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "avg_review_count_per_merchant",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "city": "string",
+                      "avg_review_count_per_merchant": "string"
+                    },
+                    "updated": true
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "city\tavg_review_count_per_merchant\nHarleysville\t1.0\nWestampton\t1.0\nBucks\t1.0\nWorcester\t1.0\nSt.Pete Beach\t1.0\nAB Edmonton\t1.0\nMARLTON\t1.0\nTAMPA AP\t1.0\nSpringfield\t1.0\nPleasant View\t1.0\nTruckee\t1.0\nFrontenac\t1.0\nMarcus Hook\t1.0\nMetairie \t1.0\nFoster Pond\t1.0\nSparks,\t1.0\nPasco\t1.0\nIndian Rocks Beach\t1.0\nKing Of Prussia\t1.0\nLafayette Hill\t1.0\nLawrenceville\t1.0\nThornton\t1.0\nChestnut Hill\t1.0\nGlenoldan\t1.0\nLansdale \t1.0\nCherry Hill\t1.0\nPlainfield\t1.0\nOlivette\t1.0\nwimauma\t1.0\nLower Southampton Township\t1.0\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_563429433",
+      "id": "paragraph_1710062474159_418692981",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18287"
+    },
+    {
+      "text": "%pyspark\n#Determine the average latitude and longitude coordinates for businesses in each state:\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import count, col , avg\nhc = HiveContext(sc)\ndf = hc.table('business')\nresult = df.groupBy('state')\\\n    .agg(avg('latitude').alias('avg_latitude'), avg('longitude').alias('avg_longitude'))\n\nz.show(result)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:29:15+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "state": "string",
+                      "avg_latitude": "string",
+                      "avg_longitude": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "state",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "avg_latitude",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "state\tavg_latitude\tavg_longitude\nAZ\t32.248497506511896\t-110.93409896570411\nLA\t29.95990718809264\t-90.10483218757724\nNJ\t39.91167563015653\t-74.98644529108478\nMI\t39.8031005859375\t-75.05054473876953\nNV\t39.511065498792114\t-119.78194632687818\nID\t43.617643266229095\t-116.27904985136225\nCA\t34.44594078863123\t-119.69023580732608\nMT\t27.7896785736084\t-82.68074798583984\nNC\t36.37883758544922\t-86.46377563476562\nVT\t42.88547897338867\t-73.20045471191406\nDE\t39.74349110584385\t-75.59122984425122\nMO\t38.62785628297901\t-90.35070291688874\nVI\t27.967205047607422\t-82.72247314453125\nIL\t38.65498281981284\t-90.00930494117293\nXMS\t38.67304992675781\t-90.42315673828125\nWA\t39.6863899230957\t-80.84069442749023\nIN\t39.819502885706044\t-86.15406658084083\nTN\t36.124134845898176\t-86.74737388469086\nPA\t40.04739890264853\t-75.22990542750559\nSD\t27.936283111572266\t-82.48319244384766\nAB\t53.5309489476238\t-113.50898210411545\nTX\t34.045976638793945\t-85.71990013122559\nMA\t39.63629913330078\t-97.42499160766602\nFL\t27.97992078894859\t-82.57007875743132\nCO\t36.453250885009766\t-97.19902801513672\nUT\t43.69544219970703\t-116.35401153564453\nHI\t35.521785736083984\t-100.64167785644531\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_1516338143",
+      "id": "paragraph_1710063501038_861409082",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18288"
+    },
+    {
+      "text": "%pyspark\n\nfrom pyspark.sql import HiveContext\nfrom pyspark.sql.functions import col, when\n\n# Create HiveContext\nhc = HiveContext(sc)\n\n# Load the 'business' table\nbusiness_df = hc.table('business')\n\n# Define the cuisine types\ncuisines = ['Chinese', 'American', 'Mexican']\n\n# Create columns for each cuisine type indicating whether the business belongs to that cuisine\nbusiness_with_cuisines = business_df.withColumn('Chinese', when(col('categories').contains('Chinese'), 1).otherwise(0)) \\\n                                   .withColumn('American', when(col('categories').contains('American'), 1).otherwise(0)) \\\n                                   .withColumn('Mexican', when(col('categories').contains('Mexican'), 1).otherwise(0))\n\n# Summarize the types and quantities of restaurants for different cuisines\ncuisine_summary = business_with_cuisines.selectExpr('sum(Chinese) as Chinese',\n                                                    'sum(American) as American',\n                                                    'sum(Mexican) as Mexican')\n\nz.show(cuisine_summary)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:32:33+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "Chinese": "string",
+                      "American": "string",
+                      "Mexican": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "pieChart": {},
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [],
+              "groups": [],
+              "values": [
+                {
+                  "name": "Mexican",
+                  "index": 2,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "Chinese",
+                  "index": 0,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "American",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "Chinese\tAmerican\tMexican\n3343\t13066\t4614\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_327005357",
+      "id": "paragraph_1710076386626_1344889760",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18289"
+    },
+    {
+      "text": "\n%pyspark\n\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import col\n\nhc = HiveContext(sc)\ndf = hc.table('business')\n\n# Filter restaurants with specified cuisines\ncuisine_types = ['Chinese', 'American', 'Mexican']\nrestaurant_review_counts = df.select('categories', 'review_count') \\\n    .filter(df['categories'].like('%Chinese%') | df['categories'].like('%American%') | df['categories'].like('%Mexican%')) \\\n    .orderBy(col('review_count').desc()) \\\n    .limit(20)\n\nz.show(restaurant_review_counts)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:38:31+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "categories": "string",
+                      "review_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "categories",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "review_count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "categories\treview_count\nAmerican (Traditional), Chicken Shop, Southern, Restaurants, Chicken Wings, American (New), Soul Food\t6093\nCandy Stores, Shopping, Department Stores, Fast Food, Beer, Wine & Spirits, Fruits & Veggies, Chinese, Food, Ice Cream & Frozen Yogurt, Desserts, Seafood, Health Markets, Bagels, Cheese Shops, Shopping Centers, Chocolatiers & Shops, Meat Shops, Public Markets, Food Court, Wineries, Local Flavor, Ethnic Food, Restaurants, Specialty Food, Arts & Entertainment, Juice Bars & Smoothies, Seafood Markets, Farmers Market, Coffee & Tea, Bakeries, Food Stands, Dinner Theater, Sporting Goods, Grocery, Fashion\t5721\nRestaurants, American (Traditional), American (New), Cafes, Breakfast & Brunch\t5193\nCajun/Creole, Restaurants, Event Planning & Services, Southern, Specialty Food, Soul Food, Food, Ethnic Food, American (New), Caterers, Breakfast & Brunch, Sandwiches\t5185\nAmerican (New), Restaurants, Sandwiches, Seafood, Cajun/Creole\t5070\nFrench, Restaurants, Cocktail Bars, Nightlife, American (New), Cajun/Creole, Breakfast & Brunch, American (Traditional), Bars\t4876\nGerman, Restaurants, Seafood, Cocktail Bars, French, Brasseries, American (New), Nightlife, Bars, Cajun/Creole, Breakfast & Brunch\t4554\nItalian, American (Traditional), Sandwiches, Fast Food, Restaurants, Local Flavor, Cheesesteaks\t4250\nBurgers, American (Traditional), Breakfast & Brunch, Restaurants, Southern\t4207\nMexican, Restaurants\t3834\nBurgers, Bars, Restaurants, American (Traditional), Vegan, Asian Fusion, Cocktail Bars, Breakfast & Brunch, Soul Food, Sandwiches, American (New), Gastropubs, Comfort Food, Nightlife, Wine Bars, Delis\t3260\nLounges, Bars, Nightlife, Breakfast & Brunch, Mexican, Restaurants\t3187\nBreweries, Food, American (New), Beer, Wine & Spirits, Restaurants, Seafood\t3064\nBurgers, Sandwiches, Food, Beer, Wine & Spirits, American (Traditional), Bars, Nightlife, Restaurants\t3054\nPubs, Nightlife, American (Traditional), Barbeque, Restaurants, Bars\t2878\nLatin American, Restaurants, Spanish, American (Traditional), Cuban\t2860\nRestaurants, French, Wine Bars, Nightlife, American (New), Bars, Cafes, Breakfast & Brunch\t2761\nSouthern, American (New), Breakfast & Brunch, Restaurants\t2756\nSouthern, Grocery, Restaurants, Barbeque, American (Traditional), Food\t2746\nBars, Restaurants, Pizza, Cheesesteaks, Italian, Beer Bar, American (Traditional), Local Flavor, Nightlife, Sandwiches\t2736\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_2120671348",
+      "id": "paragraph_1710173321183_2116203822",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18290"
+    },
+    {
+      "text": "%pyspark\n\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import col\n\nhc = HiveContext(sc)\ndf = hc.table('business')\n\n# Filter restaurants with specified cuisines\ncuisine_types = ['Chinese', 'American', 'Mexican']\nrestaurant_ratings = df.select('categories', 'stars') \\\n    .filter(df['categories'].like('%Chinese%') | df['categories'].like('%American%') | df['categories'].like('%Mexican%')) \\\n    .orderBy(col('stars').desc()) \\\n    .limit(10)\n\nz.show(restaurant_ratings)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:40:39+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "pieChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "categories": "string",
+                      "stars": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "categories",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "stars",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "categories\tstars\nMeat Shops, Mexican, Food, Delis, International Grocery, Specialty Food, Grocery, Restaurants, Tacos, Fruits & Veggies\t5.0\nDelis, Cafes, Breakfast & Brunch, Seafood, Restaurants, American (New), American (Traditional)\t5.0\nFood, Food Trucks, Restaurants, Mexican\t5.0\nTraditional Chinese Medicine, Physical Therapy, Massage Therapy, Health & Medical, Doctors, Acupuncture, Pain Management\t5.0\nVegan, Mexican, Tacos, Restaurants\t5.0\nAmerican (Traditional), Gastropubs, Restaurants, Burgers\t5.0\nRestaurants, Mexican, Tacos\t5.0\nTraditional Chinese Medicine, Veterinarians, Health & Medical, Pets\t5.0\nIrish Pub, Restaurants, American (Traditional), Polish, Sports Bars, Chicken Wings, Irish, Nightlife, Bars, Local Flavor\t5.0\nReflexology, Traditional Chinese Medicine, Massage Therapy, Health & Medical\t5.0\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710332666717_850257998",
+      "id": "paragraph_1710173411039_1872133475",
+      "dateCreated": "2024-03-13T18:24:26+0600",
+      "status": "READY",
+      "$$hashKey": "object:18291"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:53:48+0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710334428576_1584056418",
+      "id": "paragraph_1710334428576_1584056418",
+      "dateCreated": "2024-03-13T18:53:48+0600",
+      "status": "READY",
+      "$$hashKey": "object:18292"
+    }
+  ],
+  "name": "BusinessAnalysisFinal",
+  "id": "2JT52E5AF",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/BusinessAnalysisFinal"
+}
