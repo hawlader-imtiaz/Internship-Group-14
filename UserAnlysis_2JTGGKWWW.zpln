@@ -1,0 +1,991 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%pyspark\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import sum\n\n# Create a HiveContext\nhc = HiveContext(sc)\n\n# Read the table 'users' from Hive\nusers_df = hc.table('users')\n\n# Calculate the total review count\ntotal_review_count = users_df.select(sum(\"user_review_count\")).collect()[0][0]\n\n# Show the total review count\nprint(\"Total Review Count:\", total_review_count)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T16:57:58+0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TEXT",
+            "data": "Total Review Count: 46505676\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:102719"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710223526611_432208226",
+      "id": "paragraph_1710223526611_432208226",
+      "dateCreated": "2024-03-12T12:05:26+0600",
+      "dateStarted": "2024-03-13T16:57:58+0600",
+      "dateFinished": "2024-03-13T16:58:25+0600",
+      "status": "FINISHED",
+      "focus": true,
+      "$$hashKey": "object:102429"
+    },
+    {
+      "text": "%pyspark\n#       Analyze the yearly growth of user sign-ups.\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import year, count\n\n# Create a HiveContext\nhc = HiveContext(sc)\n\n# Read the table 'users' from Hive\ndf = hc.table('users')\n\n# Calculate yearly sign-ups for all users\nyearly_signups = df.withColumn(\"signup_year\", year(\"user_yelping_since\")) \\\n    .groupBy(\"signup_year\") \\\n    .agg(count(\"*\").alias(\"total_signups\")) \\\n    .orderBy(\"signup_year\")\n\n# Show the yearly sign-ups\nz.show(yearly_signups)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:28:28+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "editorHide": false,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "signup_year": "string",
+                      "total_signups": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "signup_year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "total_signups",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "signup_year\ttotal_signups\n2004\t90\n2005\t937\n2006\t5423\n2007\t15340\n2008\t31097\n2009\t64911\n2010\t109054\n2011\t176435\n2012\t195955\n2013\t209762\n2014\t233465\n2015\t247850\n2016\t217620\n2017\t151024\n2018\t133568\n2019\t104655\n2020\t47444\n2021\t40485\n2022\t2782\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:102817"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710232650555_247605438",
+      "id": "paragraph_1710232650555_247605438",
+      "dateCreated": "2024-03-12T14:37:30+0600",
+      "dateStarted": "2024-03-13T01:50:56+0600",
+      "dateFinished": "2024-03-13T01:51:18+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:102430"
+    },
+    {
+      "text": "%pyspark\n#Summarize the yearly statistics for new users\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import year, count\n\n# Create a HiveContext\nhc = HiveContext(sc)\n\n# Read the table 'users' from Hive\ndf = hc.table('users')\n\n# Calculate yearly statistics for new users\nyearly_new_users = df.withColumn(\"signup_year\", year(\"user_yelping_since\")) \\\n    .groupBy(\"signup_year\") \\\n    .agg(count(\"*\").alias(\"new_users\")) \\\n    .orderBy(\"signup_year\")\n\n# Show the yearly statistics for new users\nz.show(yearly_new_users)\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:28:30+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "signup_year": "string",
+                      "new_users": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "signup_year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "new_users",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "signup_year\tnew_users\n2004\t90\n2005\t937\n2006\t5423\n2007\t15340\n2008\t31097\n2009\t64911\n2010\t109054\n2011\t176435\n2012\t195955\n2013\t209762\n2014\t233465\n2015\t247850\n2016\t217620\n2017\t151024\n2018\t133568\n2019\t104655\n2020\t47444\n2021\t40485\n2022\t2782\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:102915"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710236336705_796597619",
+      "id": "paragraph_1710236336705_796597619",
+      "dateCreated": "2024-03-12T15:38:56+0600",
+      "dateStarted": "2024-03-13T01:48:35+0600",
+      "dateFinished": "2024-03-13T01:49:02+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:102431"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark import HiveContext\nfrom pyspark.sql.functions import year, sum\n\n# Create a HiveContext\nhc = HiveContext(sc)\n\n# Read the table 'users' from Hive\ndf = hc.table('users')\n\n# Calculate yearly statistics for review counts\nyearly_review_counts = df.withColumn(\"signup_year\", year(\"user_yelping_since\")) \\\n    .groupBy(\"signup_year\") \\\n    .agg(sum(\"user_review_count\").alias(\"total_review_count\")) \\\n    .orderBy(\"signup_year\")\n\n# Show the yearly statistics for review counts\nz.show(yearly_review_counts)\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:28:37+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "signup_year": "string",
+                      "total_review_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "signup_year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "total_review_count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "signup_year\ttotal_review_count\n2004\t14577\n2005\t226005\n2006\t920176\n2007\t2011487\n2008\t3162898\n2009\t4401364\n2010\t5444361\n2011\t6344607\n2012\t5405586\n2013\t4820434\n2014\t4354298\n2015\t3630507\n2016\t2500839\n2017\t1457654\n2018\t938027\n2019\t559500\n2020\t197284\n2021\t112349\n2022\t3723\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103013"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710236405049_607332585",
+      "id": "paragraph_1710236405049_607332585",
+      "dateCreated": "2024-03-12T15:40:05+0600",
+      "dateStarted": "2024-03-13T01:47:11+0600",
+      "dateFinished": "2024-03-13T01:47:48+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:102432"
+    },
+    {
+      "text": "%pyspark\r\nfrom pyspark import HiveContext\r\nfrom pyspark.sql.functions import desc\r\n\r\nhc = HiveContext(sc)\r\ndf = hc.table('users')\r\n\r\n# Select \"user_id\" and \"user_fans\", and order by \"user_fans\" in descending order\r\npopular_users = df.select(\"user_id\", \"user_fans\").orderBy(desc(\"user_fans\"))\r\n\r\n# Limit the DataFrame to 10 rows\r\npopular_users_limit = popular_users.limit(10)\r\n\r\n# Show the DataFrame with the most popular users first\r\nz.show(popular_users_limit)\r\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:30:31+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "user_id": "string",
+                      "user_fans": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "user_id",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "user_fans",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "user_id": "string",
+                      "user_fans": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "user_id\tuser_fans\n37cpUoM8hlkSQfReIEBd-Q\t12497\nhizGc5W1tBHPghM5YKCAtg\t3642\nHi10sGSZNxQH3NLyWSZ1oA\t3493\nJjXuiru1_ONzDkYVrHN0aw\t3243\nj14WgRoU_-2ZE1aw1dXrJg\t3138\nVHdY6oG2JPVNjihWhOooAQ\t2627\niLjMdZi0Tm7DQxX1C1_2dg\t2547\nlt7bNHl-TXziny4FETu8nA\t2451\nfgwI3rYHOv1ipfVfCSx7pg\t2424\nITa3vh5ERI90G_WP4SmGUQ\t2388\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710261389857_1248303355",
+      "id": "paragraph_1710261389857_1248303355",
+      "dateCreated": "2024-03-12T22:36:29+0600",
+      "dateStarted": "2024-03-13T08:16:12+0600",
+      "dateFinished": "2024-03-13T08:16:35+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:102433"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import year, count, sum\n\n# Create a SparkSession\nspark = SparkSession.builder \\\n    .appName(\"YelpTotalUserAnalysis\") \\\n    .getOrCreate()\n\n# Read the table 'users' from Hive\ndf = spark.table('users')\n\n# Extract the signup year from the 'user_yelping_since' column\ndf_with_year = df.withColumn(\"signup_year\", year(\"user_yelping_since\"))\n\n# Calculate the number of new users for each year\nyearly_new_users = df_with_year.groupBy(\"signup_year\") \\\n    .agg(count(\"*\").alias(\"new_users\")) \\\n    .orderBy(\"signup_year\")\n\n# Calculate the cumulative total count of users per year\nyearly_total_users = yearly_new_users.withColumn(\"total_users\", sum(\"new_users\").over(Window.orderBy(\"signup_year\").rowsBetween(Window.unboundedPreceding, 0)))\n\n# Show the yearly count of total users\nz.show(yearly_total_users)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:30:37+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "signup_year": "string",
+                      "new_users": "string",
+                      "total_users": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "signup_year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "new_users",
+                  "index": 1,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "total_users",
+                  "index": 2,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "signup_year\tnew_users\ttotal_users\n2004\t90\t90\n2005\t937\t1027\n2006\t5423\t6450\n2007\t15340\t21790\n2008\t31097\t52887\n2009\t64911\t117798\n2010\t109054\t226852\n2011\t176435\t403287\n2012\t195955\t599242\n2013\t209762\t809004\n2014\t233465\t1042469\n2015\t247850\t1290319\n2016\t217620\t1507939\n2017\t151024\t1658963\n2018\t133568\t1792531\n2019\t104655\t1897186\n2020\t47444\t1944630\n2021\t40485\t1985115\n2022\t2782\t1987897\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103203"
+            },
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103204"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710314809374_1700645247",
+      "id": "paragraph_1710314809374_1700645247",
+      "dateCreated": "2024-03-13T13:26:49+0600",
+      "dateStarted": "2024-03-13T14:14:14+0600",
+      "dateFinished": "2024-03-13T14:14:48+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:102434"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import HiveContext\nfrom pyspark.sql.functions import year, count\nfrom pyspark.sql.window import Window\n\n# Create a HiveContext\nhc = HiveContext(sc)\n\n# Read the table 'users' from Hive\ndf = hc.table('users')\n\n# Extract the signup year from the 'user_yelping_since' column\ndf_with_year = df.withColumn(\"signup_year\", year(\"user_yelping_since\"))\n\n# Calculate the number of new users for each year\nyearly_new_users = df_with_year.groupBy(\"signup_year\") \\\n    .agg(count(\"*\").alias(\"new_users\")) \\\n    .orderBy(\"signup_year\")\n\n# Calculate the cumulative total count of users per year\nwindowSpec = Window.orderBy(\"signup_year\").rowsBetween(Window.unboundedPreceding, 0)\nyearly_total_users = yearly_new_users.withColumn(\"total_users\", sum(\"new_users\").over(windowSpec))\n\n# Calculate the number of silent users for each year\nsilent_users = df_with_year.where(df_with_year.user_review_count == 0) \\\n    .groupBy(\"signup_year\") \\\n    .agg(count(\"*\").alias(\"silent_users\")) \\\n    .orderBy(\"signup_year\")\n\n# Join the yearly_total_users with silent_users to calculate silent user proportion\nyearly_proportions = yearly_total_users.join(silent_users, \"signup_year\", \"left_outer\") \\\n    .withColumn(\"silent_user_proportion\", (silent_users[\"silent_users\"] / yearly_total_users[\"total_users\"])) \\\n    .orderBy(\"signup_year\") \\\n    .select(\"signup_year\", \"total_users\", \"silent_user_proportion\")\n\n# Show the yearly proportions\nz.show(yearly_proportions)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T18:19:07+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "signup_year": "string",
+                      "total_users": "string",
+                      "silent_user_proportion": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "signup_year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [
+                {
+                  "name": "silent_user_proportion",
+                  "index": 2,
+                  "aggr": "sum"
+                }
+              ],
+              "values": [
+                {
+                  "name": "total_users",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "signup_year\ttotal_users\tsilent_user_proportion\n2004\t90\tnull\n2005\t1027\tnull\n2006\t6450\tnull\n2007\t21790\tnull\n2008\t52887\tnull\n2009\t117798\tnull\n2010\t226852\t4.408160386507503E-6\n2011\t403287\t2.4796236923084554E-6\n2012\t599242\t5.006324656816444E-6\n2013\t809004\t1.236087831456952E-6\n2014\t1042469\t9.592611387005273E-7\n2015\t1290319\t1.550004301261936E-6\n2016\t1507939\t1.9894703963489237E-6\n2017\t1658963\t3.0139309918304387E-6\n2018\t1792531\t2.231481631280017E-6\n2019\t1897186\t3.162578682322134E-6\n2020\t1944630\t3.599656489923533E-6\n2021\t1985115\t6.5487389899325735E-6\n2022\t1987897\t3.5213092026397748E-6\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103306"
+            },
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103307"
+            },
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103308"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710319881091_958481165",
+      "id": "paragraph_1710319881091_958481165",
+      "dateCreated": "2024-03-13T14:51:21+0600",
+      "dateStarted": "2024-03-13T18:00:05+0600",
+      "dateFinished": "2024-03-13T18:01:07+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:102435"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import year, count, when, sum, col\nfrom pyspark.sql.window import Window\n\n\n# Read the table 'users' from Hive\ndf = spark.table('users')\n\n# Extract the year from the 'yelping_since' column\ndf_with_year = df.withColumn(\"signup_year\", year(\"user_yelping_since\"))\n\n# Calculate the number of new users for each year\nyearly_new_users = df_with_year.groupBy(\"signup_year\") \\\n    .agg(count(\"*\").alias(\"new_users\")) \\\n    .orderBy(\"signup_year\")\n\n# Calculate the cumulative total count of users per year\nwindowSpec = Window.orderBy(\"signup_year\").rowsBetween(Window.unboundedPreceding, 0)\nyearly_total_users = yearly_new_users.withColumn(\"total_users\", sum(\"new_users\").over(windowSpec))\n\n# Calculate the number of elite users for each year\nelite_user_counts = df_with_year.filter(df_with_year[\"user_elite\"] != \"\") \\\n    .groupBy(\"signup_year\") \\\n    .agg(count(\"*\").alias(\"elite_users\")) \\\n    .orderBy(\"signup_year\")\n\n# Join elite user counts and total user counts\nuser_counts = yearly_total_users.join(elite_user_counts, \"signup_year\", \"left_outer\") \\\n    .withColumn(\"regular_users\", when(col(\"elite_users\").isNull(), col(\"total_users\"))\n                .otherwise(col(\"total_users\") - col(\"elite_users\"))) \\\n    .select(\"signup_year\", \"regular_users\", \"elite_users\") \\\n    .orderBy(\"signup_year\")\n\n# Calculate the ratio of elite users to regular users each year\nuser_counts_with_ratio = user_counts.withColumn(\"elite_to_regular_ratio\", col(\"elite_users\") / col(\"regular_users\"))\n\n# Show the top 20 rows of the DataFrame\nz.show(user_counts_with_ratio, numRows=20)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:27:10+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "lineChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "signup_year": "string",
+                      "regular_users": "string",
+                      "elite_users": "string",
+                      "elite_to_regular_ratio": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "stacked": false
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "pieChart": {},
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "signup_year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "elite_to_regular_ratio",
+                  "index": 3,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "signup_year\tregular_users\telite_users\telite_to_regular_ratio\n2004\t63\t27\t0.42857142857142855\n2005\t626\t401\t0.6405750798722045\n2006\t4707\t1743\t0.3702995538559592\n2007\t18002\t3788\t0.21042106432618599\n2008\t47208\t5679\t0.1202974072191154\n2009\t110107\t7691\t0.06985023658804618\n2010\t216924\t9928\t0.045767181132562555\n2011\t391783\t11504\t0.029363193400428297\n2012\t589074\t10168\t0.017260989281482463\n2013\t799416\t9588\t0.011993755441472275\n2014\t1033267\t9202\t0.008905732980923614\n2015\t1282283\t8036\t0.00626694731194284\n2016\t1502231\t5708\t0.003799681939728311\n2017\t1655341\t3622\t0.002188068802742154\n2018\t1790280\t2251\t0.0012573452197421633\n2019\t1895845\t1341\t7.073363065018501E-4\n2020\t1944291\t339\t1.743566163706976E-4\n2021\t1984933\t182\t9.169075228231885E-5\n2022\t1987897\tnull\tnull\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103414"
+            },
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103415"
+            },
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:103416"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710320401213_1616052102",
+      "id": "paragraph_1710320401213_1616052102",
+      "dateCreated": "2024-03-13T15:00:01+0600",
+      "dateStarted": "2024-03-13T17:52:17+0600",
+      "dateFinished": "2024-03-13T17:53:38+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:102436"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T17:52:17+0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710330737365_300117203",
+      "id": "paragraph_1710330737365_300117203",
+      "dateCreated": "2024-03-13T17:52:17+0600",
+      "status": "READY",
+      "$$hashKey": "object:102437"
+    }
+  ],
+  "name": "UserAnlysis",
+  "id": "2JTGGKWWW",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/UserAnlysis"
+}

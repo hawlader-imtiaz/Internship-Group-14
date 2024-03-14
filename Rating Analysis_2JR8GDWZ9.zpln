@@ -1,0 +1,499 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import col\nfrom pyspark.sql import HiveContext\n\n# Create a SparkSession\nspark = SparkSession.builder \\\n    .appName(\"Rating Analysis\") \\\n    .getOrCreate()\n\n# Create a HiveContext\nhc = HiveContext(spark.sparkContext)\n\n# Load the review dataset from Hive\ndf = hc.table('review')\n\n# Group by the 'rev_stars' column and count the occurrences of each rating\nrating_distribution = df.groupBy(\"rev_stars\").count().orderBy(\"rev_stars\")\n\n# Show the distribution of ratings\nz.show(rating_distribution)\n\n# Stop the SparkSession\nspark.stop()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:58:39+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "rev_stars": "string",
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "rev_stars",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "rev_stars": "string",
+                      "count": "string"
+                    },
+                    "updated": true
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "rev_stars\tcount\n1\t1069561\n2\t544240\n3\t691934\n4\t1452918\n5\t3231627\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:2214"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710277019450_781905614",
+      "id": "paragraph_1710277019450_781905614",
+      "dateCreated": "2024-03-13T02:56:59+0600",
+      "dateStarted": "2024-03-13T03:03:43+0600",
+      "dateFinished": "2024-03-13T03:04:37+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:187"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import col, date_format, dayofweek\nfrom pyspark.sql import HiveContext\n\n# Create a SparkSession\nspark = SparkSession.builder \\\n    .appName(\"Rating Frequency by Day of Week\") \\\n    .getOrCreate()\n\n# Create a HiveContext\nhc = HiveContext(spark.sparkContext)\n\n# Load the review dataset from Hive\ndf = hc.table('review')\n\n# Extract the day of the week from the 'rev_date' column\ndf = df.withColumn(\"day_of_week\", date_format(\"rev_date\", \"EEEE\"))\n\n# Group by the day of the week and 'rev_stars' column, and count the occurrences of each rating\nrating_frequency_by_day_of_week = df.groupBy(\"day_of_week\", \"rev_stars\").count().orderBy(\"day_of_week\", \"rev_stars\")\n\n# Show the frequency of ratings on each day of the week\nz.show(rating_frequency_by_day_of_week)\n\n# Stop the SparkSession\nspark.stop()\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T05:37:16+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {
+                    "columns": [
+                      {
+                        "name": "day_of_week0",
+                        "visible": true,
+                        "width": 404,
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "rev_stars1",
+                        "visible": true,
+                        "width": 713,
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "count2",
+                        "visible": true,
+                        "width": 1173,
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      }
+                    ],
+                    "scrollFocus": {},
+                    "selection": [],
+                    "grouping": {
+                      "grouping": [],
+                      "aggregations": [],
+                      "rowExpandedStates": {}
+                    },
+                    "treeView": {},
+                    "pagination": {
+                      "paginationCurrentPage": 1,
+                      "paginationPageSize": 250
+                    }
+                  },
+                  "tableColumnTypeState": {
+                    "names": {
+                      "day_of_week": "string",
+                      "rev_stars": "string",
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "day_of_week",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "rev_stars",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          },
+          "1": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "day_of_week": "string",
+                      "rev_stars": "string",
+                      "count": "string"
+                    },
+                    "updated": true
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                }
+              },
+              "commonSetting": {}
+            }
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "day_of_week\trev_stars\tcount\nFriday\t1\t145304\nFriday\t2\t70798\nFriday\t3\t89206\nFriday\t4\t189791\nFriday\t5\t447057\nMonday\t1\t155785\nMonday\t2\t83307\nMonday\t3\t109695\nMonday\t4\t226274\nMonday\t5\t455068\nSaturday\t1\t168269\nSaturday\t2\t83393\nSaturday\t3\t99651\nSaturday\t4\t208298\nSaturday\t5\t505845\nSunday\t1\t178993\nSunday\t2\t97509\nSunday\t3\t115885\nSunday\t4\t235178\nSunday\t5\t518344\nThursday\t1\t137999\nThursday\t2\t67444\nThursday\t3\t88738\nThursday\t4\t189507\nThursday\t5\t433960\nTuesday\t1\t142245\nTuesday\t2\t71212\nTuesday\t3\t95544\nTuesday\t4\t203065\nTuesday\t5\t431351\nWednesday\t1\t140966\nWednesday\t2\t70577\nWednesday\t3\t93215\nWednesday\t4\t200805\nWednesday\t5\t440002\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710277221842_822626347",
+      "id": "paragraph_1710277221842_822626347",
+      "dateCreated": "2024-03-13T03:00:21+0600",
+      "dateStarted": "2024-03-13T03:12:05+0600",
+      "dateFinished": "2024-03-13T03:14:35+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:188"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\n\n# Create a SparkSession\nspark = SparkSession.builder \\\n    .appName(\"Top 5 Merchants with Most 5-Star Ratings\") \\\n    .enableHiveSupport() \\\n    .getOrCreate()\n\n# Load the review and business datasets from Hive\ndf_review = spark.table('review')\ndf_business = spark.table('business')\n\n# Filter the reviews with 5-star ratings\ndf_5_star_ratings = df_review.filter(df_review[\"rev_stars\"] == 5)\n\n# Group by business_id and count the occurrences of 5-star ratings for each merchant\ntop_merchants_with_most_5_stars = df_5_star_ratings.groupBy(\"rev_business_id\") \\\n    .count().orderBy(\"count\", ascending=False)\n\n# Join with the business table to get the merchant names\ntop_merchants_with_names = top_merchants_with_most_5_stars.join(df_business.select(\"business_id\", \"name\"), \n                                                               top_merchants_with_most_5_stars[\"rev_business_id\"] == df_business[\"business_id\"])\n\n# Select the top 5 merchants with the most 5-star ratings\ntop_5_merchants = top_merchants_with_names.select(\"name\", \"count\").limit(5)\n\n# Show the top 5 merchants with the most 5-star ratings\nz.show(top_5_merchants)\n\n# Stop the SparkSession\nspark.stop()\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T06:00:58+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "pieChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "name": "string",
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "name",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "name\tcount\nTruckee Bagel Company - Midtown\t103\nNew Hope Pet Center\t7\nBest Smoke\t5\nScotty's Brewhouse\t26\nBlue Danube\t9\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:552"
+            },
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:553"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710278197419_430210922",
+      "id": "paragraph_1710278197419_430210922",
+      "dateCreated": "2024-03-13T03:16:37+0600",
+      "dateStarted": "2024-03-13T05:42:02+0600",
+      "dateFinished": "2024-03-13T05:44:10+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:190"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T05:42:02+0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "scala",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/scala"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710286922825_1509975065",
+      "id": "paragraph_1710286922825_1509975065",
+      "dateCreated": "2024-03-13T05:42:02+0600",
+      "status": "READY",
+      "$$hashKey": "object:191"
+    }
+  ],
+  "name": "Rating Analysis",
+  "id": "2JR8GDWZ9",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/Rating Analysis"
+}

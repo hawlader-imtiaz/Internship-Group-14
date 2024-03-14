@@ -1,0 +1,744 @@
+﻿{
+  "paragraphs": [
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import year, count\nhc = HiveContext(sc)\ndf = hc.table('review')\n\n# Calculate the yearly review count based on the 'rev_date' column\nyearly_review_count = df.withColumn(\"year\", year(df[\"rev_date\"])) \\\n    .groupBy(\"year\") \\\n    .agg(count(\"review_id\").alias(\"review_count\")) \\\n    .orderBy(\"year\", ascending=False)  # Sort by year in descending order\n\n# Show the results\nz.show(yearly_review_count)",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:11:28+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "year": "string",
+                      "review_count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "review_count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "year\treview_count\n2022\t31665\n2021\t618189\n2020\t554557\n2019\t907284\n2018\t906362\n2017\t820048\n2016\t758882\n2015\t688415\n2014\t522275\n2013\t383950\n2012\t286570\n2011\t230813\n2010\t138587\n2009\t74387\n2008\t48226\n2007\t15363\n2006\t3853\n2005\t854\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:35964"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710246706098_1829892427",
+      "id": "paragraph_1710246706098_1829892427",
+      "dateCreated": "2024-03-12T18:31:46+0600",
+      "dateStarted": "2024-03-12T18:56:00+0600",
+      "dateFinished": "2024-03-12T18:56:41+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:31932"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import year, sum\nhc = HiveContext(sc)\ndf = hc.table('review')\n# Extract the year from the 'rev_date' column\ndf = df.withColumn(\"year\", year(df[\"rev_date\"]))\n\n# Group by year and summarize the counts of helpful, funny, and cool reviews\nsummary_by_year = df.groupBy(\"year\") \\\n    .agg(sum(\"rev_useful\").alias(\"total_helpful_reviews\"),\n         sum(\"rev_funny\").alias(\"total_funny_reviews\"),\n         sum(\"rev_cool\").alias(\"total_cool_reviews\")) \\\n    .orderBy(\"year\", ascending=False)  # Sort by year in descending order\n\n# Show the results\nz.show(summary_by_year)\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:11:31+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "year": "string",
+                      "total_helpful_reviews": "string",
+                      "total_funny_reviews": "string",
+                      "total_cool_reviews": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default",
+                  "stacked": false
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "year",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "total_helpful_reviews",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "year\ttotal_helpful_reviews\ttotal_funny_reviews\ttotal_cool_reviews\n2022\t20133\t5336\t14396\n2021\t530660\t133343\t301697\n2020\t554763\t138405\t296789\n2019\t864812\t207964\t426637\n2018\t907978\t211725\t415569\n2017\t848693\t223733\t350207\n2016\t892662\t237509\t353781\n2015\t879629\t242321\t315264\n2014\t751393\t202865\t235002\n2013\t608903\t170894\t184860\n2012\t470101\t140431\t154390\n2011\t388054\t133993\t146496\n2010\t255340\t102694\t110642\n2009\t154609\t67795\t84198\n2008\t115707\t49281\t73070\n2007\t30013\t11378\t18423\n2006\t6331\t2661\t3553\n2005\t967\t415\t502\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:36706"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710246914224_125103838",
+      "id": "paragraph_1710246914224_125103838",
+      "dateCreated": "2024-03-12T18:35:14+0600",
+      "dateStarted": "2024-03-12T19:04:04+0600",
+      "dateFinished": "2024-03-12T19:04:51+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:31933"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import countDistinct, year, desc\nfrom pyspark.sql import HiveContext\n# Create a HiveContext\nhc = HiveContext(spark.sparkContext)\n\n# Load the review dataset from Hive\ndf = hc.table('review')\n\n# Extract the year from the 'rev_date' column\ndf = df.withColumn(\"year\", year(df[\"rev_date\"]))\n\n# Group by user_id and year, and count the number of reviews\nuser_yearly_reviews = df.groupBy(\"rev_user_id\", \"year\") \\\n    .agg(countDistinct(\"review_id\").alias(\"total_reviews\"))\n\n# Define a window specification to rank users within each year based on total reviews\nwindow_spec = Window.partitionBy(\"year\").orderBy(desc(\"total_reviews\"))\n\n# Add a rank column based on total_reviews within each year\nuser_ranking = user_yearly_reviews.withColumn(\"rank\", dense_rank().over(window_spec))\n\n# Limit the number of rows to display\nuser_ranking_limit = user_ranking.limit(10)\n\n# Show the results\nz.show(user_ranking_limit.orderBy(\"year\", \"rank\"))\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T06:38:08+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {
+                    "columns": [
+                      {
+                        "name": "rev_user_id0",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "year1",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "total_reviews2",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "rank3",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      }
+                    ],
+                    "scrollFocus": {},
+                    "selection": [],
+                    "grouping": {
+                      "grouping": [],
+                      "aggregations": [],
+                      "rowExpandedStates": {}
+                    },
+                    "treeView": {},
+                    "pagination": {
+                      "paginationCurrentPage": 1,
+                      "paginationPageSize": 250
+                    }
+                  },
+                  "tableColumnTypeState": {
+                    "names": {
+                      "rev_user_id": "string",
+                      "year": "string",
+                      "total_reviews": "string",
+                      "rank": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "pieChart": {}
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "rev_user_id",
+                  "index": 0,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "total_reviews",
+                  "index": 2,
+                  "aggr": "sum"
+                },
+                {
+                  "name": "year",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "rank",
+                  "index": 3,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "rev_user_id\tyear\ttotal_reviews\trank\nwXdbkFZsfDR7utJvbWElyA\t2018\t367\t1\nfr1Hz2acAb3OaL3l6DyKNg\t2018\t203\t2\nvFd8aBLg1kFcd0kCkoi-xw\t2018\t189\t3\nWwulXySQN8t2hwqH_yWurA\t2018\t183\t4\ngv0coNUFY-fibRwP8IKqPA\t2018\t179\t5\n4YyJpeAr6jsY0FaIbLiTSQ\t2018\t178\t6\n-G7Zkl1wIWBBmD0KRy_sCw\t2018\t177\t7\n8VPCVY70TcE353gRruotWQ\t2018\t173\t8\nvmUqcqMjlWoBM6qfmUXgyQ\t2018\t170\t9\nxSlBsTTPtPvwlclBIvAjYw\t2018\t166\t10\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:32520"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710248857129_300412893",
+      "id": "paragraph_1710248857129_300412893",
+      "dateCreated": "2024-03-12T19:07:37+0600",
+      "dateStarted": "2024-03-12T22:17:25+0600",
+      "dateFinished": "2024-03-12T22:19:09+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:31934"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import countDistinct, year, desc, first\nfrom pyspark.sql import HiveContext\n\n# Create a HiveContext\nhc = HiveContext(spark.sparkContext)\n\n# Load the review dataset from Hive\ndf = hc.table('review')\n\n# Extract the yea\nr from the 'rev_date' column\ndf = df.withColumn(\"year\", year(df[\"rev_date\"]))\n\n# Group by user_id and year, and count the number of reviews\nuser_yearly_reviews = df.groupBy(\"rev_user_id\", \"year\") \\\n    .agg(countDistinct(\"review_id\").alias(\"total_reviews\"))\n\n# Define a window specification to rank users within each year based on total reviews\nwindow_spec = Window.partitionBy(\"year\").orderBy(desc(\"total_reviews\"))\n\n# Add a rank column based on total_reviews within each year\nuser_ranking = user_yearly_reviews.withColumn(\"rank\", dense_rank().over(window_spec))\n\n# Select the top reviewer (first row) for each year\ntop_reviewers_by_year = user_ranking.filter(\"rank == 1\")\n\n# Show the results\nz.show(top_reviewers_by_year.orderBy(\"year\"))\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:11:19+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "table",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {},
+                  "tableColumnTypeState": {
+                    "names": {
+                      "rev_user_id": "string",
+                      "year": "string",
+                      "total_reviews": "string",
+                      "rank": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "stackedAreaChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                },
+                "lineChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "year",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "total_reviews",
+                  "index": 2,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "rev_user_id\tyear\ttotal_reviews\trank\nn-lBS02-3yvlY5Q91mmwDA\t2005\t171\t1\ngfQqQYI5_hCAGEHlHXIz2Q\t2006\t137\t1\n0yYCMhDWCEIVUyZLzDWwqQ\t2007\t316\t1\nbnVzSHI48lEHPaEzZNIqJg\t2008\t413\t1\n_BcWyKQL16ndpBdggh2kNA\t2009\t407\t1\nf9lq4KAus-xCsmJmjXeKVw\t2010\t381\t1\n1HM81n6n4iPIFU5d2Lokhw\t2011\t292\t1\n1HM81n6n4iPIFU5d2Lokhw\t2012\t413\t1\nzYFGMy1_thjMnvQLX6JNBw\t2013\t331\t1\nEQpFHqGT9Tk6YSwORTtwpg\t2014\t287\t1\nvYMvOTL31e0KbTo9Hd0tjg\t2015\t343\t1\nB1OVDsstzC_RaESmtd1oWQ\t2016\t355\t1\nqcf3A5mtPntTmmSfADo6tg\t2017\t302\t1\nwXdbkFZsfDR7utJvbWElyA\t2018\t367\t1\nwXdbkFZsfDR7utJvbWElyA\t2019\t400\t1\nSp2GV7D-_JLZMPQmDanzPQ\t2020\t216\t1\nxalgcjscRLNPuyaAeKNThA\t2021\t242\t1\nvjLQ8F8opdDXGyXISRnuYQ\t2022\t39\t1\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:35426"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710256175361_1338729416",
+      "id": "paragraph_1710256175361_1338729416",
+      "dateCreated": "2024-03-12T21:09:35+0600",
+      "dateStarted": "2024-03-12T21:20:51+0600",
+      "dateFinished": "2024-03-12T21:23:07+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:31935"
+    },
+    {
+      "text": "%pyspark\nfrom pyspark.sql import SparkSession\nfrom pyspark.sql.functions import explode, split, lower, regexp_replace\nfrom pyspark.sql.functions import desc\n\n# Create a SparkSession\nspark = SparkSession.builder \\\n    .appName(\"Top 20 Words\") \\\n    .enableHiveSupport() \\\n    .getOrCreate()\n\n# Load the review dataset from Hive\ndf = spark.table('review')\n\n# Tokenize the reviews into individual words\nwords_df = df.select(explode(split(lower(regexp_replace(\"rev_text\", \"[^a-zA-Z\\\\s]\", \"\")), \"\\\\s+\")).alias(\"word\"))\n\n# Count the occurrences of each word in the entire dataset\nword_count_df = words_df.groupBy(\"word\").count()\n\n# Sort the words by their frequency in descending order\ntop_words_df = word_count_df.orderBy(desc(\"count\"))\n\n# Show the top 20 most common words using z.show()\nz.show(top_words_df.limit(20))\n\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:49:16+0600",
+      "progress": 0,
+      "config": {
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "colWidth": 12,
+        "editorMode": "ace/mode/python",
+        "fontSize": 9,
+        "results": {
+          "0": {
+            "graph": {
+              "mode": "pieChart",
+              "height": 300,
+              "optionOpen": false,
+              "setting": {
+                "table": {
+                  "tableGridState": {
+                    "columns": [
+                      {
+                        "name": "word0",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {},
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      },
+                      {
+                        "name": "count1",
+                        "visible": true,
+                        "width": "*",
+                        "sort": {
+                          "priority": 0,
+                          "direction": "desc"
+                        },
+                        "filters": [
+                          {}
+                        ],
+                        "pinned": ""
+                      }
+                    ],
+                    "scrollFocus": {},
+                    "selection": [],
+                    "grouping": {
+                      "grouping": [],
+                      "aggregations": [],
+                      "rowExpandedStates": {}
+                    },
+                    "treeView": {},
+                    "pagination": {
+                      "paginationCurrentPage": 1,
+                      "paginationPageSize": 250
+                    }
+                  },
+                  "tableColumnTypeState": {
+                    "names": {
+                      "word": "string",
+                      "count": "string"
+                    },
+                    "updated": false
+                  },
+                  "tableOptionSpecHash": "[{\"name\":\"useFilter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable filter for columns\"},{\"name\":\"showPagination\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable pagination for better navigation\"},{\"name\":\"showAggregationFooter\",\"valueType\":\"boolean\",\"defaultValue\":false,\"widget\":\"checkbox\",\"description\":\"Enable a footer for displaying aggregated values\"}]",
+                  "tableOptionValue": {
+                    "useFilter": false,
+                    "showPagination": false,
+                    "showAggregationFooter": false
+                  },
+                  "updated": false,
+                  "initialized": false
+                },
+                "multiBarChart": {
+                  "rotate": {
+                    "degree": "-45"
+                  },
+                  "xLabelStatus": "default"
+                }
+              },
+              "commonSetting": {},
+              "keys": [
+                {
+                  "name": "word",
+                  "index": 0,
+                  "aggr": "sum"
+                }
+              ],
+              "groups": [],
+              "values": [
+                {
+                  "name": "count",
+                  "index": 1,
+                  "aggr": "sum"
+                }
+              ]
+            },
+            "helium": {}
+          }
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "results": {
+        "code": "SUCCESS",
+        "msg": [
+          {
+            "type": "TABLE",
+            "data": "word\tcount\nthe\t36711363\nand\t26130618\ni\t18989299\na\t18805836\nto\t17718125\nwas\t13446475\nof\t10407788\nit\t8900451\nfor\t8678051\nis\t8664220\nin\t8230734\nmy\t7024184\nwe\t6317028\nwith\t6078524\nthat\t6034531\nthey\t5911040\nthis\t5845148\nbut\t5444607\non\t5132305\nyou\t4938295\n"
+          }
+        ]
+      },
+      "apps": [],
+      "runtimeInfos": {
+        "jobUrl": {
+          "propertyName": "jobUrl",
+          "label": "SPARK JOB",
+          "tooltip": "View in Spark web UI",
+          "group": "spark",
+          "values": [
+            {
+              "jobUrl": "http://node-master:4040/jobs",
+              "$$hashKey": "object:39561"
+            }
+          ],
+          "interpreterSettingId": "spark"
+        }
+      },
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710291056398_2057475588",
+      "id": "paragraph_1710291056398_2057475588",
+      "dateCreated": "2024-03-13T06:50:56+0600",
+      "dateStarted": "2024-03-13T20:33:42+0600",
+      "dateFinished": "2024-03-13T20:47:01+0600",
+      "status": "FINISHED",
+      "$$hashKey": "object:31936"
+    },
+    {
+      "text": "%pyspark\n",
+      "user": "anonymous",
+      "dateUpdated": "2024-03-13T20:54:43+0600",
+      "progress": 0,
+      "config": {
+        "colWidth": 12,
+        "fontSize": 9,
+        "enabled": true,
+        "results": {},
+        "editorSetting": {
+          "language": "python",
+          "editOnDblClick": false,
+          "completionKey": "TAB",
+          "completionSupport": true
+        },
+        "editorMode": "ace/mode/python"
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "apps": [],
+      "runtimeInfos": {},
+      "progressUpdateIntervalMs": 500,
+      "jobName": "paragraph_1710341683053_1755760355",
+      "id": "paragraph_1710341683053_1755760355",
+      "dateCreated": "2024-03-13T20:54:43+0600",
+      "status": "READY",
+      "focus": true,
+      "$$hashKey": "object:39578"
+    }
+  ],
+  "name": "ReviewAnalysis",
+  "id": "2JTVM7YBU",
+  "defaultInterpreterGroup": "spark",
+  "version": "0.10.1",
+  "noteParams": {},
+  "noteForms": {},
+  "angularObjects": {},
+  "config": {
+    "isZeppelinNotebookCronEnable": false,
+    "looknfeel": "default",
+    "personalizedMode": "false"
+  },
+  "info": {},
+  "path": "/ReviewAnalysis"
+}
